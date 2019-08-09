@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Citizenship Exam</title>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple and easy to use flashcard application for studying for the USCIS citizenship exam.">
+
+
+
+    <script src="https://bootswatch.com/_vendor/jquery/dist/jquery.min.js"></script>
+    <script src="https://bootswatch.com/_vendor/popper.js/dist/umd/popper.min.js"></script>
+    <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://bootswatch.com/_assets/js/custom.js"></script>
+    <script src="./static/data/data.js"></script>
+    <script src="./static/script/custom/study.js"></script>
+    <script src="./static/script/custom/quiz.js"></script>
+    <script src="./static/script/custom/onLoad.js"></script>
+
+    <script src='https://cdn.rawgit.com/admsev/jquery-play-sound/master/jquery.playSound.js'></script>
+
+    <link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="https://bootswatch.com/_assets/css/custom.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="./static/style/baseStyle.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- HEADER -->
+            <div class="col">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                        <a class="navbar-brand" href="#">USCIS Citizenship Exam</a>      
+                </nav>
+            </div>
+            <!-- MODE CONTROL -->
+            <div id="app-mode" class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="options" id="study" autocomplete="off">Study
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="quiz" autocomplete="off">Quiz
+                </label>
+            </div>
+        </div>
+
+        <!-- MAIN -->
+        <div class="row mt-5">
+
+            <!-- Q/A IMG DISPLAY -->
+            <div id="qa-img-display" class="col">
+                <div class="jumbotron">
+                        <div id="img-box"></div>
+                        <h1 class="display-3 text-center">                  
+                            <div id="text-node"></div>
+                        </h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCOREBOARD -->
+        <div class="row quiz-control-block collapse">
+            <div class="col" id="scoreboard">
+                    <h1 id="quiz-score">Correct <span>0/10</span> </h1>
+            </div>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="row">
+            <div class="col">
+                <div class="progress">
+                    <div id="progress" class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="row mt-3 justify-content-start" id="controls">
+            
+            <!-- QUIZ CONTROL -->
+            <div class="quiz-control-block collapse" id="quiz-control">
+                <button type="button" class="btn btn-success btn-lg correct-btn">Correct</button>
+                <button type="button" class="btn btn-warning btn-lg wrong-btn">Incorrect</button>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-lg" id="next-btn">Next</button>
+            <button type="button" class="btn btn-secondary btn-lg" id="repeat-btn">Repeat</button>
+            <button type="button" class="btn btn-success btn-lg" id="answer-btn">Show Answer</button>
+            <div class="col"></div>
+
+            <div id="study-mode" class="btn-group-toggle study-mode-control collapse" data-toggle="buttons">
+                 <button type="button" class="btn btn-warning btn-lg study-mode-control" id="reset-btn">Reset</button>
+            </div>
+        </div>
+            <!-- Footer -->
+        <footer>
+            <div class="row justify-content-center mt-5">
+                    <h5>- made for muoi -</h5>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

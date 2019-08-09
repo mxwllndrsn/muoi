@@ -1,0 +1,32 @@
+body {
+    font-family: helvetica, 'Segoe UI', sans-serif;
+}
+
+.btn {
+    margin:5px;
+}
+/* Navbar */
+
+#toolbar {
+    margin-top: 2em;
+}
+#progress {
+    width: 0%;
+}
+
+#cor-count {
+    font-size: 30px;
+    color: #aaffaa;
+}
+#wro-count {
+    font-size: 30px;
+    color: #ffaaaa;
+}
+#img-box {
+    max-width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    position: relative;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
