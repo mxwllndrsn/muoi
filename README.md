@@ -9,6 +9,6 @@ Initial concept and python scripts borrowed from [vladimiriii/arabic-flashcards]
 
 #### Future updates:
 
-**Background image and audio loading**  
-**Up-to-date question/answer scraping**  
-**Persistent results tracking and visualization**  
+*Background image and audio loading*  
+*Up-to-date question/answer scraping*  
+*Persistent results tracking and visualization*  
