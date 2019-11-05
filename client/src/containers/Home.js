@@ -13,10 +13,24 @@ class Home extends Component {
         question: "Here is the question",
         answer: "Here is the answer",
         answerImage: "https://images.unsplash.com/photo-1520525003249-2b9cdda513bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-        progressValue: 50,
+        progressValue: 0,
     }
     componentWillMount() {
-        // console.log(this.state.data);
+        console.log(this.state.data.length);
+    }
+    increaseProgressBar = () => (event) => {
+        event.preventDefault();
+        const value = this.state.progressValue;
+        const increment = this.state.data.length / 100;
+        this.setState({
+            progressValue: value + increment
+        });
+    }
+    resetQuiz = () => (event) => {
+        event.preventDefault();
+        this.setState({
+            progressValue: 0
+        });
     }
     flipCard = () => (event) => {
         event.preventDefault();
@@ -76,9 +90,40 @@ class Home extends Component {
                         <Row>
                             <Column size="md-1" />
                             <Column size="md-10">
-                                <ProgressBar 
+                                <ProgressBar
                                     value={this.state.progressValue}
                                 />
+                            </Column>
+                            <Column size="md-1" />
+                        </Row>
+                        <Row>
+                            <Column size="md-1" />
+                            <Column size="md-9">
+                                <div className="question-controls ten-margin-top twenty-margin-bottom">
+                                    <Button 
+                                        buttonClass="quiz"
+                                        action={this.increaseProgressBar()}
+                                        text="Next"
+                                    />
+                                    <Button 
+                                        buttonClass="repeat"
+                                        text="Repeat"
+                                    />
+                                    <Button 
+                                        buttonClass="show-answer"
+                                        action={this.flipCard()}
+                                        text="Show Answer"
+                                    />
+                                </div>
+                            </Column>
+                            <Column size="md-1">
+                                <div className="ten-margin-top twenty-margin-bottom">
+                                    <Button
+                                        buttonClass="reset"
+                                        action={this.resetQuiz()}
+                                        text="Reset"
+                                    />
+                                </div>
                             </Column>
                             <Column size="md-1" />
                         </Row>
