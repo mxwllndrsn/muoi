@@ -7,10 +7,8 @@ Initial concept and python scripts borrowed from [vladimiriii/arabic-flashcards]
 
 Currently hosted at https://mxwll.io/muoi/. 
 
-*Image and audio files not included*
+*Img/audio not included.*
 
-#### Future updates:
+In development w/ (Clint)[https://github.com/CB721].
 
-*Background image and audio loading*  
-*Up-to-date question/answer scraping*  
-*Persistent results tracking and visualization*  
+(Project Kanban)[https://github.com/mxwllndrsn/muoi/projects/1].
