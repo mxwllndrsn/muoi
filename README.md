@@ -9,6 +9,6 @@ Currently hosted at https://mxwll.io/muoi/.
 
 *Img/audio not included.*
 
-In development w/ (Clint)[https://github.com/CB721].
+In development w/ [Clint](https://github.com/CB721).
 
-(Project Kanban)[https://github.com/mxwllndrsn/muoi/projects/1].
+[Project Kanban](https://github.com/mxwllndrsn/muoi/projects/1).
