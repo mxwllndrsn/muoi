@@ -1,0 +1,32 @@
+.study {
+    background: rgb(104, 81, 7);
+    color: white;
+    line-height: 60px;
+    height: 60px;
+    font-size: 1.125rem;
+    border-radius: 4px;
+    border: none;
+    width: 80px;
+}
+.quiz {
+    background: rgb(191, 150, 14);
+    color: white;
+    line-height: 60px;
+    height: 60px;
+    font-size: 1.125rem;
+    border-radius: 4px;
+    border: none;
+    width: 80px;
+}
+.study:hover {
+    background: rgb(79, 62, 5);
+    -webkit-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.5);
+}
+.quiz:hover {
+    background: rgb(140, 110, 13);
+    -webkit-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.5);
+}
