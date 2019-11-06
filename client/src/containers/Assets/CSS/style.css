@@ -3,6 +3,9 @@ body {
     background: #002b36;
     color: white;
 }
+p {
+    font-size: 35px;
+}
 .content-background {
     background: #04495b;
 }
