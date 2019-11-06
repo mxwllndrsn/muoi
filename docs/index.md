@@ -5,7 +5,7 @@ A Simple Flashcard Application
 
 ## Stack
 
-Muoi uses a *MERN* stack w/ React, Node, Mongo, and Heroku for the development deployment. Future migration to AWS is planned. Muoi was originally written as a single page application with jQuery. 
+Muoi uses a *MERN* stack w/ React, Node, Mongo, and Heroku for the [development deployment](https://muoi-dev.herokuapp.com/). Muoi was originally written as a single page application with jQuery.  
 
-Development credits go to [Clint Brodar](github.com/cb721) and [Max Anderson](github.com/mxwllndrsn). It was inspired by the article [Create a flashcard app without a database](http://brettromero.com/create-flashcard-app-without-database/), by [Brett Romero](https://github.com/vladimiriii).
+Development credits go to [Clint Brodar](https://github.com/cb721) and [Max Anderson](https://github.com/mxwllndrsn). It was inspired by the article [Create a flashcard app without a database](http://brettromero.com/create-flashcard-app-without-database/), by [Brett Romero](https://github.com/vladimiriii).
  
