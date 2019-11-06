@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Unsplash, { toJson } from 'unsplash-js';
 import { Container, Row, Column } from "../components/Grid";
 import Button from "../components/Button";
 import Question from "../components/Question";
@@ -16,17 +17,40 @@ class Home extends Component {
         answerImage: "",
         progressValue: 0,
     }
-    componentWillMount() {
-        this.randomQuestion()
+
+    UNSAFE_componentWillMount() {
+        this.randomQuestion();
     }
     randomQuestion = () => {
         const data = this.state.data;
-        if (this.state.data) {
+        if (data) {
             const randomIndex = Math.floor(Math.random() * this.state.data.length);
             const selectedQuestion = data.splice(randomIndex, 1);
+            const answer = selectedQuestion[0].answer
+                .split(' ')
+                .map((letter) => letter.charAt(0).toUpperCase() + letter.substring(1))
+                .join(' ');
+            const question = selectedQuestion[0].question
+                .split(' ')
+                .map((letter) => letter.charAt(0).toUpperCase() + letter.substring(1))
+                .join(' ');
+            const unsplash = new Unsplash ({
+                accessKey: process.env.REACT_APP_UNSPLASH_KEY,
+                secret: process.env.REACT_APP_UNSPLASH_SECRET_KEY
+            });
+            unsplash.search.photos(
+                answer,
+                1,
+                1
+            ).then(toJson)
+            .then(res => {
+                this.setState({
+                    answerImage: res.results[0].urls.regular
+                })
+            });
             this.setState({
-                question: selectedQuestion[0].question,
-                answer: selectedQuestion[0].answer
+                question: question,
+                answer: answer
             })
         } else {
             alert(
@@ -60,6 +84,18 @@ class Home extends Component {
         } else {
             this.setState({ questionCard: "question-card" });
         }
+    }
+    showAnswer = () => (event) => {
+        event.preventDefault();
+        this.setState({
+            questionCard: "question-card is-flipped"
+        });
+    }
+    showQuestion = () => (event) => {
+        event.preventDefault();
+        this.setState({
+            questionCard: "question-card"
+        });
     }
 
     render() {
@@ -128,11 +164,12 @@ class Home extends Component {
                                     />
                                     <Button
                                         buttonClass="repeat"
-                                        text="Repeat"
+                                        action={this.showQuestion()}
+                                        text="Show Question"
                                     />
                                     <Button
                                         buttonClass="show-answer"
-                                        action={this.flipCard()}
+                                        action={this.showAnswer()}
                                         text="Show Answer"
                                     />
                                 </div>
