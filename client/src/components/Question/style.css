@@ -33,7 +33,7 @@
 .answer {
     border-radius: 4px;
     background: #04495b;
-    font-size: 72px;
+    font-size: 52px;
     font-weight: 300;
     transform: rotateX( 180deg );
 }

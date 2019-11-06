@@ -9,21 +9,42 @@ import "./Assets/CSS/style.css";
 class Home extends Component {
     state = {
         data: data,
+        answeredQuestions: [],
         questionCard: "question-card",
-        question: "Here is the question",
-        answer: "Here is the answer",
-        answerImage: "https://images.unsplash.com/photo-1520525003249-2b9cdda513bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+        question: "",
+        answer: "",
+        answerImage: "",
         progressValue: 0,
     }
     componentWillMount() {
-        console.log(this.state.data.length);
+        this.randomQuestion()
     }
-    increaseProgressBar = () => (event) => {
+    randomQuestion = () => {
+        const data = this.state.data;
+        if (this.state.data) {
+            const randomIndex = Math.floor(Math.random() * this.state.data.length);
+            const selectedQuestion = data.splice(randomIndex, 1);
+            this.setState({
+                question: selectedQuestion[0].question,
+                answer: selectedQuestion[0].answer
+            })
+        } else {
+            alert(
+                "Complete!"
+            );
+            this.setState({
+                data: this.state.answeredQuestions
+            });
+        }
+    }
+    nextQuestion = () => (event) => {
         event.preventDefault();
+        this.randomQuestion();
         const value = this.state.progressValue;
-        const increment = this.state.data.length / 100;
+        const increment = (this.state.data.length + this.state.answeredQuestions.length) / 100;
         this.setState({
-            progressValue: value + increment
+            progressValue: value + increment,
+            questionCard: "question-card"
         });
     }
     resetQuiz = () => (event) => {
@@ -100,16 +121,16 @@ class Home extends Component {
                             <Column size="md-1" />
                             <Column size="md-9">
                                 <div className="question-controls ten-margin-top twenty-margin-bottom">
-                                    <Button 
+                                    <Button
                                         buttonClass="quiz"
-                                        action={this.increaseProgressBar()}
+                                        action={this.nextQuestion()}
                                         text="Next"
                                     />
-                                    <Button 
+                                    <Button
                                         buttonClass="repeat"
                                         text="Repeat"
                                     />
-                                    <Button 
+                                    <Button
                                         buttonClass="show-answer"
                                         action={this.flipCard()}
                                         text="Show Answer"
