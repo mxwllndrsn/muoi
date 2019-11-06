@@ -1,0 +1,24 @@
+body {
+    font-family: helvetica, 'Segoe UI', sans-serif;
+    background: #002b36;
+    color: white;
+}
+.content-background {
+    background: #04495b;
+}
+.quiz-header {
+    text-align: center;
+    line-height: 60px;
+    height: 60px;
+    border-radius: 4px;
+    width: 100%;
+}
+.twenty-margin-top {
+    margin-top: 20vh;
+}
+.ten-margin-top {
+    margin-top: 10vh;
+}
+.twenty-margin-bottom {
+    margin-bottom: 20vh;
+}

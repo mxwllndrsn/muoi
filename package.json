@@ -1,0 +1,42 @@
+{
+  "name": "muoi",
+  "version": "1.0.0",
+  "description": "A simple and easy to use flashcard application for studying for the USCIS citizenship exam.",
+  "main": "server.js",
+  "proxy": "http://0.0.0.0:3001",
+  "scripts": {
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "node server.js",
+    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd client && npm run start",
+    "install": "cd client && npm install && npm run build && cd ..",
+    "build": "cd client && npm run build",
+    "heroku-postbuild": "npm run build"
+  },
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "concurrently": "^5.0.0",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.6.11",
+    "mongoose-auto-increment": "^5.0.1",
+    "nodemon": "^1.19.4",
+    "path": "^0.12.7",
+    "react-bootstrap": "^1.0.0-beta.14",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.1.1",
+    "redux": "^4.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mxwllndrsn/muoi.git"
+  },
+  "author": "Max Anderson and Clint Brodar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mxwllndrsn/muoi/issues"
+  },
+  "homepage": "https://github.com/mxwllndrsn/muoi#readme"
+}
