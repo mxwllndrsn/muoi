@@ -3,7 +3,7 @@ A Simple Flashcard Application
 
 **Muoi** is a flashcard application designed for the quick creation of study guides by end users. Initially created to help study for the *USCIS Citizenship Exam*, it is being adapted to generate and persist custom flash cards created by anyone. 
 
-### Stack
+## Stack
 
 Muoi uses a *MERN* stack w/ React, Node, Mongo, and Heroku for the development deployment. Future migration to AWS is planned. Muoi was originally written as a single page application with jQuery. 
 
