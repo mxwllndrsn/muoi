@@ -37,20 +37,20 @@ class Home extends Component {
                 .split(' ')
                 .map((letter) => letter.charAt(0).toUpperCase() + letter.substring(1))
                 .join(' ');
-            // const unsplash = new Unsplash ({
-            //     accessKey: process.env.REACT_APP_UNSPLASH_KEY,
-            //     secret: process.env.REACT_APP_UNSPLASH_SECRET_KEY
-            // });
-            // unsplash.search.photos(
-            //     answer,
-            //     1,
-            //     1
-            // ).then(toJson)
-            // .then(res => {
-            //     this.setState({
-            //         answerImage: res.results[0].urls.regular
-            //     })
-            // });
+            const unsplash = new Unsplash ({
+                 accessKey: process.env.REACT_APP_UNSPLASH_KEY,
+                 secret: process.env.REACT_APP_UNSPLASH_SECRET_KEY
+             });
+             unsplash.search.photos(
+                 answer,
+                 1,
+                 1
+             ).then(toJson)
+             .then(res => {
+                 this.setState({
+                     answerImage: res.results[0].urls.regular
+                 })
+             });
             this.setState({
                 increment: increment,
                 question: question,
