@@ -57,16 +57,16 @@ class Home extends Component {
                 accessKey: process.env.REACT_APP_UNSPLASH_KEY,
                 secret: process.env.REACT_APP_UNSPLASH_SECRET_KEY
             });
-            // unsplash.search.photos(
-            //     answer,
-            //     1,
-            //     1
-            // ).then(toJson)
-            //     .then(res => {
-            //         this.setState({
-            //             answerImage: res.results[0].urls.regular
-            //         })
-            //     });
+            unsplash.search.photos(
+                answer,
+                1,
+                1
+            ).then(toJson)
+                .then(res => {
+                    this.setState({
+                        answerImage: res.results[0].urls.regular
+                    })
+                });
             this.setState({
                 increment: increment,
                 question: question,
@@ -82,7 +82,6 @@ class Home extends Component {
         }
     }
     createQuiz = () => {
-        const thisIsThis = this;
         const quizArr = [];
         const data = this.state.data;
         if (data.length > 9) {
@@ -96,18 +95,52 @@ class Home extends Component {
                 } else {
                     const randomIndex = Math.floor(Math.random() * data.length);
                     const questionObj = data[randomIndex];
-                    quizArr.push(questionObj);
-
+                    const unsplash = new Unsplash({
+                        accessKey: process.env.REACT_APP_UNSPLASH_KEY,
+                        secret: process.env.REACT_APP_UNSPLASH_SECRET_KEY
+                    });
+                    unsplash.search.photos(
+                        questionObj.answer,
+                        1,
+                        1
+                    )
+                    .then(toJson)
+                    .then(res => {
+                        questionObj.quizAnswerImage = res.results[0].urls.regular
+                        quizArr.push(questionObj);
+                    })
+                    .then(quizArr.push(questionObj))
+                    .catch(err => console.log(err));
                 }
             }
         } else {
-            for (let i = 0; i < data.length; i++) {
-                const randomIndex = Math.floor(Math.random() * data.length);
-                const questionObj = data[randomIndex];
-                this.setState({
-                    quizQuestions: thisIsThis.state.quizQuestions.concat(questionObj),
-                    increment: data.length
-                })
+            for (let i = 0; i <= data.length; i++) {
+                if (i >= data.length) {
+                    this.setState({
+                        quizQuestions: [...this.state.quizQuestions, quizArr],
+                        increment: data.length
+                    });
+                    this.displayQuiz();
+                } else {
+                    const randomIndex = Math.floor(Math.random() * data.length);
+                    const questionObj = data[randomIndex];
+                    const unsplash = new Unsplash({
+                        accessKey: process.env.REACT_APP_UNSPLASH_KEY,
+                        secret: process.env.REACT_APP_UNSPLASH_SECRET_KEY
+                    });
+                    unsplash.search.photos(
+                        questionObj.answer,
+                        1,
+                        1
+                    )
+                        .then(toJson)
+                        .then(res => {
+                            questionObj.quizAnswerImage = res.results[0].urls.regular
+                            quizArr.push(questionObj);
+                        })
+                        .then(quizArr.push(questionObj))
+                        .catch(err => console.log(err));
+                }
             }
         }
     }
@@ -117,7 +150,7 @@ class Home extends Component {
             this.setState({
                 quizQuestion: quiz[0].question,
                 quizAnswer: quiz[0].answer,
-                quizAnswerImage: quiz[0].answerImage,
+                quizAnswerImage: quiz[0].quizAnswerImage,
                 questionCard: "question-card",
                 quizIndex: 0
             });
@@ -127,7 +160,7 @@ class Home extends Component {
                 this.setState({
                     quizQuestion: quiz[0].question,
                     quizAnswer: quiz[0].answer,
-                    quizAnswerImage: quiz[0].answerImage,
+                    quizAnswerImage: quiz[0].quizAnswerImage,
                     questionCard: "question-card",
                     quizIndex: 0
                 });
@@ -137,11 +170,10 @@ class Home extends Component {
     quizNext = () => (event) => {
         event.preventDefault();
         const nextIndex = this.state.quizIndex + 1;
-        console.log(nextIndex);
         this.setState({
-            quizQuestion: this.state.quizQuestions[nextIndex].question,
-            quizAnswer: this.state.quizQuestions[nextIndex].answer,
-            quizAnswerImage: this.state.quizQuestions[nextIndex].answerImage,
+            quizQuestion: this.state.quizQuestions[0][nextIndex].question,
+            quizAnswer: this.state.quizQuestions[0][nextIndex].answer,
+            quizAnswerImage: this.state.quizQuestions[0][nextIndex].quizAnswerImage,
             questionCard: "question-card",
             quizIndex: nextIndex
         });
@@ -150,9 +182,9 @@ class Home extends Component {
         event.preventDefault();
         const lastIndex = this.state.quizIndex - 1;
         this.setState({
-            quizQuestion: this.state.quizQuestions[lastIndex].question,
-            quizAnswer: this.state.quizQuestions[lastIndex].answer,
-            quizAnswerImage: this.state.quizQuestions[lastIndex].answerImage,
+            quizQuestion: this.state.quizQuestions[0][lastIndex].question,
+            quizAnswer: this.state.quizQuestions[0][lastIndex].answer,
+            quizAnswerImage: this.state.quizQuestions[0][lastIndex].quizAnswerImage,
             questionCard: "question-card",
             quizIndex: lastIndex
         });
@@ -314,35 +346,75 @@ class Home extends Component {
                             <Column size="md-1" />
                             <Column size="md-9">
                                 <div className="question-controls ten-margin-top twenty-margin-bottom">
-                                    <Button
-                                        buttonClass="quiz"
-                                        action={this.nextQuestion()}
-                                        text="Next"
-                                    />
-                                    <Button
-                                        buttonClass="repeat"
-                                        action={this.showQuestion()}
-                                        text="Show Question"
-                                    />
-                                    <Button
-                                        buttonClass="show-answer"
-                                        action={this.showAnswer()}
-                                        text="Show Answer"
-                                    />
-                                    <Button
-                                        buttonClass="previous"
-                                        action={this.previousQuestion()}
-                                        text="Previous Question"
-                                    />
+                                    {this.state.mode === "study" ? (
+                                        <Button
+                                            buttonClass="quiz"
+                                            action={this.nextQuestion()}
+                                            text="Next"
+                                        />
+                                    ) : (
+                                            <Button
+                                                buttonClass="quiz"
+                                                action={this.quizNext()}
+                                                text="Next"
+                                            />
+                                        )}
+                                    {this.state.mode === "study" ? (
+                                        <Button
+                                            buttonClass="repeat"
+                                            action={this.showQuestion()}
+                                            text="Show Question"
+                                        />
+                                    ) : (
+                                            <Button
+                                                buttonClass="repeat"
+                                                action={this.showQuestion()}
+                                                text="Show Question"
+                                            />
+                                        )}
+                                    {this.state.mode === "study" ? (
+                                        <Button
+                                            buttonClass="show-answer"
+                                            action={this.showAnswer()}
+                                            text="Show Answer"
+                                        />
+                                    ) : (
+                                            <Button
+                                                buttonClass="show-answer"
+                                                action={this.showAnswer()}
+                                                text="Show Answer"
+                                            />
+                                        )}
+                                    {this.state.mode === "study" ? (
+                                        <Button
+                                            buttonClass="previous"
+                                            action={this.previousQuestion()}
+                                            text="Previous Question"
+                                        />
+                                    ) : (
+                                            <Button
+                                                buttonClass="previous"
+                                                action={this.quizLast()}
+                                                text="Previous Question"
+                                            />
+                                        )}
                                 </div>
                             </Column>
                             <Column size="md-1">
                                 <div className="ten-margin-top twenty-margin-bottom">
-                                    <Button
-                                        buttonClass="reset"
-                                        action={this.resetStudy()}
-                                        text="Reset"
-                                    />
+                                    {this.state.mode === "study" ? (
+                                        <Button
+                                            buttonClass="reset"
+                                            action={this.resetStudy()}
+                                            text="Reset"
+                                        />
+                                    ) : (
+                                            <Button
+                                                buttonClass="reset"
+                                                action={this.quizMode()}
+                                                text="Reset"
+                                            />
+                                        )}
                                 </div>
                             </Column>
                             <Column size="md-1" />
