@@ -17,14 +17,30 @@ class Home extends Component {
         answerImage: "",
         progressValue: 0,
         increment: 0,
+        mode: "study",
+        quizQuestions: [],
+        quizQuestion: "",
+        quizAnswer: "",
+        quizAnswerImage: "",
+        topic: "USCIS Citizenship Exam",
+        quizIndex: 0
     }
 
     UNSAFE_componentWillMount() {
-        this.randomQuestion();
+        switch (this.state.mode) {
+            case (this.state.mode === "study"):
+                this.randomQuestion();
+                break;
+            case (this.state.mode === "quiz"):
+                this.createQuiz();
+                break;
+            default:
+                this.randomQuestion();
+                return;
+        }
     }
     randomQuestion = () => {
         const data = this.state.data;
-        console.log(this.state.answeredQuestions);
         const increment = (this.state.data.length + this.state.answeredQuestions.length) / 100;
         if (data) {
             const randomIndex = Math.floor(Math.random() * this.state.data.length);
@@ -37,20 +53,20 @@ class Home extends Component {
                 .split(' ')
                 .map((letter) => letter.charAt(0).toUpperCase() + letter.substring(1))
                 .join(' ');
-            // const unsplash = new Unsplash ({
-            //     accessKey: process.env.REACT_APP_UNSPLASH_KEY,
-            //     secret: process.env.REACT_APP_UNSPLASH_SECRET_KEY
-            // });
+            const unsplash = new Unsplash({
+                accessKey: process.env.REACT_APP_UNSPLASH_KEY,
+                secret: process.env.REACT_APP_UNSPLASH_SECRET_KEY
+            });
             // unsplash.search.photos(
             //     answer,
             //     1,
             //     1
             // ).then(toJson)
-            // .then(res => {
-            //     this.setState({
-            //         answerImage: res.results[0].urls.regular
-            //     })
-            // });
+            //     .then(res => {
+            //         this.setState({
+            //             answerImage: res.results[0].urls.regular
+            //         })
+            //     });
             this.setState({
                 increment: increment,
                 question: question,
@@ -64,6 +80,82 @@ class Home extends Component {
                 data: this.state.answeredQuestions
             });
         }
+    }
+    createQuiz = () => {
+        const thisIsThis = this;
+        const quizArr = [];
+        const data = this.state.data;
+        if (data.length > 9) {
+            for (let i = 0; i <= 10; i++) {
+                if (i > 9) {
+                    this.setState({
+                        quizQuestions: [...this.state.quizQuestions, quizArr],
+                        increment: 10
+                    });
+                    this.displayQuiz();
+                } else {
+                    const randomIndex = Math.floor(Math.random() * data.length);
+                    const questionObj = data[randomIndex];
+                    quizArr.push(questionObj);
+
+                }
+            }
+        } else {
+            for (let i = 0; i < data.length; i++) {
+                const randomIndex = Math.floor(Math.random() * data.length);
+                const questionObj = data[randomIndex];
+                this.setState({
+                    quizQuestions: thisIsThis.state.quizQuestions.concat(questionObj),
+                    increment: data.length
+                })
+            }
+        }
+    }
+    displayQuiz = () => {
+        if (this.state.quizQuestions.length > 9) {
+            const quiz = this.state.quizQuestions[0];
+            this.setState({
+                quizQuestion: quiz[0].question,
+                quizAnswer: quiz[0].answer,
+                quizAnswerImage: quiz[0].answerImage,
+                questionCard: "question-card",
+                quizIndex: 0
+            });
+        } else {
+            setTimeout(() => {
+                const quiz = this.state.quizQuestions[0];
+                this.setState({
+                    quizQuestion: quiz[0].question,
+                    quizAnswer: quiz[0].answer,
+                    quizAnswerImage: quiz[0].answerImage,
+                    questionCard: "question-card",
+                    quizIndex: 0
+                });
+            }, 1000);
+        }
+    }
+    quizNext = () => (event) => {
+        event.preventDefault();
+        const nextIndex = this.state.quizIndex + 1;
+        console.log(nextIndex);
+        this.setState({
+            quizQuestion: this.state.quizQuestions[nextIndex].question,
+            quizAnswer: this.state.quizQuestions[nextIndex].answer,
+            quizAnswerImage: this.state.quizQuestions[nextIndex].answerImage,
+            questionCard: "question-card",
+            quizIndex: nextIndex
+        });
+    }
+    quizLast = () => (event) => {
+        event.preventDefault();
+        const lastIndex = this.state.quizIndex - 1;
+        this.setState({
+            quizQuestion: this.state.quizQuestions[lastIndex].question,
+            quizAnswer: this.state.quizQuestions[lastIndex].answer,
+            quizAnswerImage: this.state.quizQuestions[lastIndex].answerImage,
+            questionCard: "question-card",
+            quizIndex: lastIndex
+        });
     }
     nextQuestion = () => (event) => {
         event.preventDefault();
@@ -85,12 +177,19 @@ class Home extends Component {
             thisIsThis.randomQuestion();
         }, 250);
     }
-    resetQuiz = () => (event) => {
+    resetStudy = () => (event) => {
         event.preventDefault();
         this.setState({
             progressValue: 0,
             data: data,
             answeredQuestions: []
+        });
+    }
+    resetQuiz = () => (event) => {
+        event.preventDefault();
+        this.setState({
+            progressValue: 0,
+            quizQuestions: []
         });
     }
     flipCard = () => (event) => {
@@ -127,6 +226,22 @@ class Home extends Component {
             });
         }
     }
+    studyMode = () => (event) => {
+        event.preventDefault();
+        this.setState({
+            mode: "study",
+            progressValue: 0
+        });
+        this.randomQuestion();
+    }
+    quizMode = () => (event) => {
+        event.preventDefault();
+        this.setState({
+            mode: "quiz",
+            progressValue: 0
+        });
+        this.createQuiz();
+    }
 
     render() {
         return (
@@ -138,22 +253,23 @@ class Home extends Component {
                             <Column size="md-8">
                                 <div className="quiz-header content-background twenty-margin-top">
                                     <p>
-                                        USCIS Citizenship Exam
+                                        {this.state.topic}
                                     </p>
                                 </div>
                             </Column>
                             <Column size="md-1">
                                 <div className="twenty-margin-top">
                                     <Button
+                                        action={this.studyMode()}
                                         buttonClass="study"
                                         text="Study"
                                     />
                                 </div>
-
                             </Column>
                             <Column size="md-1">
                                 <div className="twenty-margin-top">
                                     <Button
+                                        action={this.quizMode()}
                                         buttonClass="quiz"
                                         text="Quiz"
                                     />
@@ -164,13 +280,24 @@ class Home extends Component {
                         <Row>
                             <Column size="md-1" />
                             <Column size="md-10">
-                                <Question
-                                    card={this.state.questionCard}
-                                    flip={this.flipCard()}
-                                    question={this.state.question}
-                                    answer={this.state.answer}
-                                    answerImage={this.state.answerImage}
-                                />
+                                {this.state.mode === "study" ? (
+                                    <Question
+                                        card={this.state.questionCard}
+                                        flip={this.flipCard()}
+                                        question={this.state.question}
+                                        answer={this.state.answer}
+                                        answerImage={this.state.answerImage}
+                                    />
+                                ) : (
+                                        <Question
+                                            card={this.state.questionCard}
+                                            flip={this.flipCard()}
+                                            question={this.state.quizQuestion}
+                                            answer={this.state.quizAnswer}
+                                            answerImage={this.state.quizAnswerImage}
+                                        />
+                                    )}
+
                             </Column>
                             <Column size="md-1" />
                         </Row>
@@ -213,7 +340,7 @@ class Home extends Component {
                                 <div className="ten-margin-top twenty-margin-bottom">
                                     <Button
                                         buttonClass="reset"
-                                        action={this.resetQuiz()}
+                                        action={this.resetStudy()}
                                         text="Reset"
                                     />
                                 </div>
