@@ -66,6 +66,11 @@ class Home extends Component {
                     this.setState({
                         answerImage: res.results[0].urls.regular
                     })
+                }).catch(err => {
+                    console.log(err);
+                    this.setState({
+                        answerImage: "http://arwsome.com/wp-content/uploads/2016/07/RG-image-800x.jpg"
+                    })
                 });
             this.setState({
                 increment: increment,
@@ -110,7 +115,12 @@ class Home extends Component {
                         quizArr.push(questionObj);
                     })
                     .then(quizArr.push(questionObj))
-                    .catch(err => console.log(err));
+                    .catch(err => {
+                        console.log(err);
+                        this.setState({
+                            answerImage: "http://arwsome.com/wp-content/uploads/2016/07/RG-image-800x.jpg"
+                        })
+                    });
                 }
             }
         } else {
@@ -139,7 +149,12 @@ class Home extends Component {
                             quizArr.push(questionObj);
                         })
                         .then(quizArr.push(questionObj))
-                        .catch(err => console.log(err));
+                        .catch(err => {
+                            console.log(err);
+                            this.setState({
+                                answerImage: "http://arwsome.com/wp-content/uploads/2016/07/RG-image-800x.jpg"
+                            })
+                        });
                 }
             }
         }
