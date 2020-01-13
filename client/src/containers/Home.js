@@ -186,12 +186,17 @@ class Home extends Component {
         event.preventDefault();
         const nextIndex = this.state.quizIndex + 1;
         this.setState({
-            quizQuestion: this.state.quizQuestions[0][nextIndex].question,
-            quizAnswer: this.state.quizQuestions[0][nextIndex].answer,
-            quizAnswerImage: this.state.quizQuestions[0][nextIndex].quizAnswerImage,
-            questionCard: "question-card",
-            quizIndex: nextIndex
+            questionCard: "question-card"
         });
+        setTimeout(() => {
+            this.setState({
+                quizQuestion: this.state.quizQuestions[0][nextIndex].question,
+                quizAnswer: this.state.quizQuestions[0][nextIndex].answer,
+                quizAnswerImage: this.state.quizQuestions[0][nextIndex].quizAnswerImage,
+                questionCard: "question-card",
+                quizIndex: nextIndex
+            });
+        }, 350);
     }
     quizLast = () => (event) => {
         event.preventDefault();
@@ -222,7 +227,7 @@ class Home extends Component {
         const thisIsThis = this;
         setTimeout(function () {
             thisIsThis.randomQuestion();
-        }, 250);
+        }, 350);
     }
     resetStudy = () => (event) => {
         event.preventDefault();
