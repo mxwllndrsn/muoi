@@ -186,11 +186,11 @@ class Home extends Component {
         event.preventDefault();
         const nextIndex = this.state.quizIndex + 1;
         this.setState({
-            questionCard: "question-card"
+            questionCard: "question-card",
+            quizQuestion: this.state.quizQuestions[0][nextIndex].question
         });
         setTimeout(() => {
             this.setState({
-                quizQuestion: this.state.quizQuestions[0][nextIndex].question,
                 quizAnswer: this.state.quizQuestions[0][nextIndex].answer,
                 quizAnswerImage: this.state.quizQuestions[0][nextIndex].quizAnswerImage,
                 questionCard: "question-card",
